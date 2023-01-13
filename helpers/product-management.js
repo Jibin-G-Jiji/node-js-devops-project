@@ -21,6 +21,17 @@ module.exports = {
         });
     },
 
+    getHomeProducts: (proId) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db
+                .get()
+                .collection(collection.PRODUCT_COLLECTIONS)
+                .find().limit(8)
+                .toArray();
+            resolve(products);
+        });
+    },
+
     wishListProducts: (userId) => {
         return new Promise(async (resolve, reject) => {
             let wishArray = await db

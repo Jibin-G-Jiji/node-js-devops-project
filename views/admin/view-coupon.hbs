@@ -8,7 +8,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Coupon Id</th>
+                                <th>Index</th>
                                 <th>Coupon Name</th>
                                 <th>Coupon percentage</th>
                                 <th>Start date </th>
@@ -17,16 +17,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                             {{#each data}}
+                            
+                            {{#each coupon}}
                             <tr>
-                                <td>{{this.couponID}}</td>
+                                <th>{{@index}} </th>
                                 <td>{{this.couponName}}</td>
-                                <td>{{this.persentage}}</td>
+                                <td>{{this.persentage}} %</td>
                                 <td>{{this.startdate}}</td>
                                 <td>{{this.enddate}}</td>
                                 <td><a onclick="deleteCoupon('{{this._id}}')" class="btn btn-danger">Delete</a></td>
                             </tr>
-                  {{/each}}
+                            {{/each}}
                             
                         </tbody>
                     </table>

@@ -30,10 +30,11 @@ function deleteCartProduct(proId, cartId) {
     url: "/delete-cart-product",
     data: {
       productId: proId,
-      cartId: cartId,
+      cartId: cartId
     },
     method: "post",
     success: (response) => {
+      console.log(response);
       swal("Product removed from cart", { button: false, timer: 900 }).then(
         () => {
           location.reload();

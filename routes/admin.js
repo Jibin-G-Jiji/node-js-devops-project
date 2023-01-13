@@ -363,10 +363,10 @@ router.get("/view-order/:id", verifyLogin, async (req, res) => {
   });
 });
 
-//coupons section
+//coupons section 
 router.get("/show-coupon", verifyLogin, (req, res) => {
   itemHelpers.getAllCoupon().then((coupon) => {
-    res.render("admin/show-coupon", { admin: true, coupon });
+    res.render("admin/view-coupon", { admin: true, coupon });
   });
 });
 
@@ -383,7 +383,8 @@ router.post("/add-coupon", (req, res) => {
 router.get("/delete-coupon/:id", verifyLogin, (req, res) => {
   let couponId = req.params.id;
   itemHelpers.deleteCoupon(couponId).then(() => {
-    res.redirect("/admin/show-coupon");
+    // res.redirect("/admin/view-coupon");
+    res.json({response: true})
   });
 });
 

@@ -60,7 +60,7 @@
                                     <h5 id="subTotal{{this.product._id}}" >₹ {{this.product.subtotal}}</h5>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary" onclick="deleteCartProduct('{{this.product._id}}')" style=" background-color: #ff8600; border: none;">Delete</button>
+                                    <button class="btn btn-primary" onclick="deleteCartProduct('{{this.product._id}}','{{this._id}}')" style=" background-color: #ff8600; border: none;">Delete</button>
                                 </td>
                             </tr>
                         {{/each}}
@@ -83,11 +83,20 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="cupon_text d-flex align-items-center">
-                                        <input type="text" placeholder="Coupon Code">
-                                        <a class="primary-btn" href="#">Apply</a>
-                                        <a class="gray_btn">Close Coupon</a>
-                                    </div>
+                                    <form id="coupon-form">
+                                        <div class="cupon_text d-flex align-items-center">
+                                            <input type="text" placeholder="Coupon Code" name="coupon"
+                                            style="padding: 0px 30px;
+                                            line-height: 38px;">
+                                            <button class="primary-btn ml-3" type="submit"
+                                            style="height: 40px;
+                                                padding: 0px 30px;
+                                                line-height: 38px;
+                                                text-transform: uppercase;
+                                                border-radius: 0;">Apply</button>
+                                            <a class="gray_btn">Close Coupon</a>
+                                        </div>
+                                    </form>
                                 </td>
                                 <td>
 
@@ -164,31 +173,27 @@
         success: (amount) => {
             console.log(amount)
             if (amount.status) {
-                    swal("Success!", "Coupon Applied", "success").then(() => {
-                        document.getElementById('offer-price').innerHTML = amount.discountamount
-                        document.getElementById('total-price').innerHTML = amount.grandtotal
-                    })
-                } else if (amount.used) {
-                    swal("Info!", "Coupon already used!", "warning").then(() => {
-                        document.getElementById('offer-price').innerHTML = 0
-
-                    })
-                } else if (amount.expired) {
-                    swal("Info!", "Coupon Expired", "warning").then(() => {
-                        document.getElementById('offer-price').innerHTML = 0
-
-                    })
-                } else if (amount.small) {
-                    swal("Info!", "Total amount should be within 1000 and 5000 to apply coupon", "warning").then(() => {
-                        document.getElementById('offer-price').innerHTML = 0
-
-                    })
-                } else {
-                    swal("Oops!", "Coupon does not exist", "error").then(() => {
-                        document.getElementById('offer-price').innerHTML = 0
-
-                    })
-                }
+                swal("Success!", "Coupon Applied", "success").then(() => {
+                    document.getElementById('offer-price').innerHTML = amount.discountamount
+                    document.getElementById('total-price').innerHTML = amount.grandtotal
+                })
+            } else if (amount.used) {
+                swal("Info!", "Coupon already used!", "warning").then(() => {
+                    document.getElementById('offer-price').innerHTML = 0
+                })
+            } else if (amount.expired) {
+                swal("Info!", "Coupon Expired", "warning").then(() => {
+                    document.getElementById('offer-price').innerHTML = 0
+                })
+            } else if (amount.small) {
+                swal("Info!", "Total amount should be within 1000 and 5000 to apply coupon", "warning").then(() => {
+                    document.getElementById('offer-price').innerHTML = 0
+                })
+            } else {
+                swal("Oops!", "Coupon does not exist", "error").then(() => {
+                    document.getElementById('offer-price').innerHTML = 0
+                })
+            }
         }
       })
     })

@@ -225,7 +225,7 @@ router.get("/", async function (req, res, next) {
     : null;
   let banner = await itemHelpers.getAllBanner();
   let categories = await productHelpers.getCategories();
-  let products = await productHelpers.getAllProducts();
+  let products = await productHelpers.getHomeProducts();
 
   if (userLog) {
     let wishProducts = await productHelpers.wishListProducts(userLog?._id);
@@ -291,7 +291,7 @@ router.get("/show-products/:id", async (req, res) => {
     : null;
   let categories = await productHelpers.getCategories();
   productHelpers.categoryFilter(req.params.id).then((products) => {
-    res.render("user/shop", {
+    res.render("user/store", {
       userHead: true,
       products,
       userLog,
@@ -432,6 +432,7 @@ router.post("/coupon", verifyLogin, async (req, res) => {
     if (response.coupon) {
       amount = response;
       req.session.couponedAmount = amount;
+      console.log(amount);
       amount.status = true;
       res.json(amount);
     } else if (response.usedcoupon) {
@@ -475,7 +476,9 @@ router.get("/add-to-wishlist/:id", verifyLogin, (req, res) => {
 
 
 router.post("/delete-cart-product", verifyLogin, (req, res) => {
+  console.log(req.body)
   cartHelpers.deleteCartProduct(req.body).then((response) => {
+    console.log(response);
     res.json({ removeProduct: true });
   });
 });
@@ -497,15 +500,19 @@ router.get("/checkout", verifyLogin, verifyCartCount, async (req, res) => {
   let cartCount = req.session.cartCount;
   let wallet = await userHelpers.getWallet(userLog._id);
   let products = await cartHelpers.getCartProducts(userLog._id);
-  let total = await cartHelpers.getTotalAmount(userLog._id);
+  let subTotal = await cartHelpers.getTotalAmount(userLog._id);
+  let total
   if (req.session.couponedAmount) {
     total = req.session.couponedAmount.grandtotal;
+  }else{
+    total = subTotal
   }
   userHelpers.getUserAddress(userLog._id).then((address) => {
     res.render("user/checkout", {
       products,
       address,
       wallet,
+      subTotal,
       total,
       userLog,
       cartCount,

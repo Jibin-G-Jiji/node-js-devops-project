@@ -217,6 +217,7 @@ module.exports = {
   
     deleteCartProduct: (data) => {
       return new Promise((resolve, reject) => {
+        console.log(data);
         db.get()
           .collection(collection.CART_COLLECTION)
           .updateOne(
@@ -226,22 +227,24 @@ module.exports = {
             { $pull: { products: { item: objectId(data.productId) } } }
           )
           .then((response) => {
+            console.log(response);
             resolve({ removeProduct: true });
           });
       });
     },
+
     couponCheck: (userId, body) => {
       let response = {};
       return new Promise(async (resolve, reject) => {
         let couponcode = await db
           .get()
-          .collection(collection.COUPON_COLLECTION)
-          .findOne({ couponname: body.coupon });
+          .collection(collection.COUPON_COLLECTION) 
+          .findOne({ couponName: body.coupon });
         if (couponcode) {
           let user = await db
             .get()
             .collection(collection.COUPON_COLLECTION)
-            .findOne({ couponname: body.coupon, user: objectId(userId) });
+            .findOne({ couponName: body.coupon, user: objectId(userId) });
           if (user) {
             response.coupon = false;
             response.usedcoupon = true;
@@ -298,9 +301,10 @@ module.exports = {
                 ])
                 .toArray();
               let total1 = total[0].total;
-  
-              response.discountamount = (couponcode.percentage * total1) / 100;
+              
+              response.discountamount = (couponcode.persentage * total1) / 100;
               response.grandtotal = total1 - response.discountamount;
+              console.log(couponcode);
               response.coupon = true;
               resolve(response);
             } else {

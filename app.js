@@ -35,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public/user/')));
+// app.use(express.static(path.join(__dirname, 'public/stylesheets/')));
 app.use(express.static(path.join(__dirname, 'public/admin/')));
 
 app.use(

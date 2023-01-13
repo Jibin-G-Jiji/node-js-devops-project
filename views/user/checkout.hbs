@@ -103,10 +103,10 @@
                             {{/each}}
                         </ul>
                         <ul class="list list_2">
-                            <li><a >Subtotal <span>₹ {{total}}.00</span></a></li>
-                            <li><a >Descount <span>Flat rate: ₹ 00.00</span></a></li>
+                            <li><a >Subtotal <span>₹ <span id="domSt">{{subTotal}}</span> </span></a></li>
+                            <li><a >Descount <span >Flat rate: ₹ <span id="domDis"> 00</span></span></a></li>
                             <li><a >Wallet amoutnt <span>₹ {{user.wallet}}00.00</span></a></li>
-                            <li><a s>Total <span>₹ {{total}}.00</span></a></li>
+                            <li><a s>Total <span>₹<span id="domTotal">{{total}}</span></span></a></li>
                         </ul>
                         {{!-- <div class="payment_item">
                             <div class="radion_btn">
@@ -160,6 +160,13 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script> 
 <script>
+
+    //Calculaating descount sum
+    let total = document.querySelector("#domTotal").innerText
+    let subTotal = document.querySelector("#domSt").innerText
+    console.log(total)
+    document.querySelector("#domDis").innerText = total - subTotal
+
   $("#checkout").submit((event) => {
   event.preventDefault();
   $.ajax({
