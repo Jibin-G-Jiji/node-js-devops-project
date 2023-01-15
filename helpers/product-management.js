@@ -385,16 +385,16 @@ module.exports = {
         return report;
     },
 
-    // getAllBanner: () => {
-    //     return new Promise(async (resolve, reject) => {
-    //         let banner = await db
-    //             .get()
-    //             .collection(collection.BANNER_COLLECTION)
-    //             .find()
-    //             .toArray();
-    //         resolve(banner);
-    //     });
-    // },
+    getAllBanner: () => {
+        return new Promise(async (resolve, reject) => {
+            let banner = await db
+                .get()
+                .collection(collection.BANNER_COLLECTION)
+                .find()
+                .toArray();
+            resolve(banner);
+        });
+    },
 
     getOneBanner: (bannerId) => {
         return new Promise((resolve, reject) => {
