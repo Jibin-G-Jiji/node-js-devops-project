@@ -496,7 +496,12 @@ module.exports = {
                 .then((category) => {
                     resolve(category);
                 });
-        });
+        })
+        .catch(
+            (err) => {
+                console.log(err);
+            }
+        )
     },
 
     updateCategory: (proId, proDetails) => {
@@ -514,7 +519,12 @@ module.exports = {
                 .then((response) => {
                     resolve(response);
                 });
-        });
+        })
+        .catch(
+            (err) => {
+                console.log(err);
+            }
+        )
     },
 
     deleteCategory: (proId) => {
@@ -525,7 +535,12 @@ module.exports = {
                 .then((response) => {
                     resolve(response);
                 });
-        });
+        })
+        .catch(
+            (err) => {
+                console.log(err);
+            }
+        )
     },
 
     addOfferCategory: (body, catId) => {
@@ -542,7 +557,12 @@ module.exports = {
                     }
                 );
             resolve();
-        });
+        })
+        .catch(
+            (err) => {
+                console.log(err);
+            }
+        )
     },
 
     activateCategoryOffer: (catId) => {
@@ -605,7 +625,12 @@ module.exports = {
                     );
             });
             resolve();
-        });
+        })
+        .catch(
+            (err) => {
+                console.log(err);
+            }
+        )
     },
 
     deactivateCategoryOffer: (catId) => {
@@ -669,7 +694,12 @@ module.exports = {
                         }
                     );
             });
-        });
+        })
+        .catch(
+            (err) => {
+                console.log(err);
+            }
+        )
     },
 
     changeOfferStatus: (catId, newOffer) => {
