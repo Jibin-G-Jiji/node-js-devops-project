@@ -232,47 +232,47 @@ router.get("/categories", verifyLogin, (req, res) => {
   });
 });
 
-router.get("/show-banner", verifyLogin, (req, res) => {
-  itemHelpers.getAllBanner().then((banner) => {
-    res.render("admin/banner", { admin: true, banner });
-  });
-});
+// router.get("/show-banner", verifyLogin, (req, res) => {
+//   itemHelpers.getAllBanner().then((banner) => {
+//     res.render("admin/banner", { admin: true, banner });
+//   });
+// });
 
-router.get("/add-banner", verifyLogin, (req, res) => {
-  res.render("admin/add-banner", { admin: true });
-});
+// router.get("/add-banner", verifyLogin, (req, res) => {
+//   res.render("admin/add-banner", { admin: true });
+// });
 
-router.post("/add-banner", store.array("Images"), (req, res) => {
-  var filenames = req.files.map(function (file) {
-    return file.filename;
-  });
-  req.body.Images = filenames;
-  itemHelpers.addBanner(req.body).then(() => {
-    res.redirect("/admin/show-banner");
-  });
-});
+// router.post("/add-banner", store.array("Images"), (req, res) => {
+//   var filenames = req.files.map(function (file) {
+//     return file.filename;
+//   });
+//   req.body.Images = filenames;
+//   itemHelpers.addBanner(req.body).then(() => {
+//     res.redirect("/admin/show-banner");
+//   });
+// });
 
-router.get("/edit-banner/:id", verifyLogin, async (req, res) => {
-  let banner = await itemHelpers.getOneBanner(req.params.id);
-  res.render("admin/edit-banner", { admin: true, banner });
-});
+// router.get("/edit-banner/:id", verifyLogin, async (req, res) => {
+//   let banner = await itemHelpers.getOneBanner(req.params.id);
+//   res.render("admin/edit-banner", { admin: true, banner });
+// });
 
-router.post("/edit-banner/:id", store.array('Images'), verifyLogin, async (req, res) => {
-  var filenames = req.files.map(function (file) {
-    return file.filename;
-  });
-  req.body.Images = filenames;
-  itemHelpers.updateBanner(req.params.id, req.body).then(() => {
-    res.redirect("/admin/show-banner");
-  });
-});
+// router.post("/edit-banner/:id", store.array('Images'), verifyLogin, async (req, res) => {
+//   var filenames = req.files.map(function (file) {
+//     return file.filename;
+//   });
+//   req.body.Images = filenames;
+//   itemHelpers.updateBanner(req.params.id, req.body).then(() => {
+//     res.redirect("/admin/show-banner");
+//   });
+// });
 
-router.get("/delete-banner/:id", verifyLogin, (req, res) => {
-  let banner = req.params.id;
-  itemHelpers.deleteBanner(banner).then(() => {
-    res.redirect("/admin/show-banner");
-  });
-});
+// router.get("/delete-banner/:id", verifyLogin, (req, res) => {
+//   let banner = req.params.id;
+//   itemHelpers.deleteBanner(banner).then(() => {
+//     res.redirect("/admin/show-banner");
+//   });
+// });
 
 router.get("/add-categories", verifyLogin, (req, res) => {
   res.render("admin/add-category", { admin: true });
