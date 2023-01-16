@@ -224,7 +224,7 @@ router.get("/", async function (req, res, next) {
     ? await cartHelpers.getCartCount(userLog._id)
     : null;
   // let banner = await itemHelpers.getAllBanner();
-  let categories = await productHelpers.getCategories();
+  // let categories = await productHelpers.getCategories();
   let products = await productHelpers.getHomeProducts();
 
   if (userLog) {
@@ -246,7 +246,6 @@ router.get("/", async function (req, res, next) {
     userLog,
     products,
     cartCount,
-    categories,
   });
 });
 
