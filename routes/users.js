@@ -6,13 +6,13 @@ var productHelpers = require("../helpers/product-management");
 const cartHelpers = require("../helpers/cart-helpers");
 const itemHelpers = require("../helpers/product-management");
 
-const client = require("twilio")(
-  process.env.ACCOUNT_SID,
-  process.env.AUTH_TOKEN,
-  {
-    lazyLoading: true,
-  }
-);
+// const client = require("twilio")(
+//   process.env.ACCOUNT_SID,
+//   process.env.AUTH_TOKEN,
+//   {
+//     lazyLoading: true,
+//   }
+// );
 
 let User_number = "";
 let trueOtpUser = {};
@@ -339,6 +339,7 @@ router.get("/view-order-details/:id", verifyLogin, async (req, res) => {
   userHelpers
     .getOrderedProducts(req.params.id)
     .then((products) => {
+      console.log(orders);
       res.render("user/ordered-products", {
         userHead: true,
         products,
@@ -600,7 +601,7 @@ router.post("/place-order", verifyLogin, async (req, res) => {
         userHelpers.clearCart(userLog._id);
       } else if (req.body["method"] == "razorpay") {
         userHelpers
-          .generateRazorPay(req.session.orderId, totalPrice)
+          .generateRazorPay(req.session.orderId, totalPrice) 
           .then((order) => {
             order.razorpay = true;
             res.json(order);

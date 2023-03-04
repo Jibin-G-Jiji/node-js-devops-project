@@ -5,14 +5,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Add Category</h4>
-                        <form class="forms-sample" method="post" action="/admin/add-category"
-                            >
+                        <form class="forms-sample" id="submitCopon" >
                             <div class="form-group">
                                 <label for="exampleInputUsername1">Category Name</label>
                                 <input type="text" class="form-control" id="exampleInputUsername1"
                                     placeholder="Categoryname" name="category">
                             </div>
-                            <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                            <button onclick="submitCategory" type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -20,3 +19,22 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $('#submitCopon').submit((e) => {
+        e.preventDefault();
+        $.ajax({
+            url: '/admin/add-category',
+            method: 'post',
+            data: $('#submitCopon').serialize(),
+            success: (res) => {
+                console.log(res);
+                swal("Success!", res , "success").then(() => {
+                    $('#exampleInputUsername1').val('');
+                })
+            }
+        })
+    })
+
+</script>

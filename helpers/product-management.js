@@ -721,7 +721,7 @@ module.exports = {
 
     //ADD-PRODUCT
     addItem: (body) => {
-        console.log(body);
+        
         return new Promise(async (resolve, reject) => {
             let Category = await db
                 .get()

@@ -1,6 +1,7 @@
 const db = require("../config/connection")
 const collection = require("../config/collections")
 const bcrypt = require("bcrypt");
+const CC = require('currency-converter-lt')
 var objectId = require("mongodb").ObjectId;
 require("dotenv").config();
 
@@ -9,7 +10,7 @@ const paypal = require("paypal-rest-sdk");
 
 var instance = new RazorPay({
     key_id: process.env.KEY_ID,
-    key_secret: process.env.KEY_SECRET,
+    key_secret: process.env.KEY_SECRET, 
 });
   
 paypal.configure({
@@ -615,7 +616,7 @@ module.exports = {
         });
     },
 
-    placeOrder: (
+    placeOrder: ( 
         orderedProducts,
         deliveryAddress,
         total,

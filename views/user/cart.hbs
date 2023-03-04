@@ -171,7 +171,7 @@
         method: 'post',
         data:$('#coupon-form').serialize(),
         success: (amount) => {
-            console.log(amount)
+            
             if (amount.status) {
                 swal("Success!", "Coupon Applied", "success").then(() => {
                     document.getElementById('offer-price').innerHTML = amount.discountamount

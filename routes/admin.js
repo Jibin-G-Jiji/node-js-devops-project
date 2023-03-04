@@ -208,21 +208,26 @@ router.post(
 
 router.post("/add-item", store.array("image", 4), verifyLogin, (req, res) => {
   const files = req.files;
-  // if (!files) {
-  //   const err = new Error("please choose the images");
-  //   res.redirect("/add-products", err);
-  // }
- 
+  console.log("I am hear");
+  if (!files) {
+    const err = new Error("please choose the images");
+    console.log("File is not hear");
+    res.redirect("/add-products", err);
+  }
 
+  console.log(req.body);
+ 
   var filenames = req.files.map(function (file) {
     return file.filename;
   });
 
   req.body.Image = filenames;
   itemHelpers.addItem(req.body).then(() => {
-    res.redirect("/admin/view-products");
+    // res.redirect("/add-products");
+    res.send('This is success')
   });
 });
+
 
 //categories
 //getting catogories page for delete update
@@ -279,8 +284,9 @@ router.get("/add-categories", verifyLogin, (req, res) => {
 });
 
 router.post("/add-category", verifyLogin, (req, res) => {
+  console.log(req.body);
   itemHelpers.addCategory(req.body);
-  res.redirect("/admin/categories");
+  res.send("Item add successfuly");
 });
 
 router.get("/edit-categories/:id", verifyLogin, (req, res) => {

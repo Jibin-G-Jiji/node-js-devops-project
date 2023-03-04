@@ -7,7 +7,7 @@
 					<div class="row single-slide align-items-center d-flex">
 						<div class="col-lg-5 col-md-6">
 							<div class="banner-content">
-								<h1>Nike New <br>Collection!</h1>
+								<h1>New San<br>Collection!</h1>
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
 									incididunt ut labore et
 									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
@@ -109,7 +109,7 @@
 						<div class="single-deal">
 							<div class="overlay"></div>
 							<img class="img-fluid w-100" src="img/category/c1.jpg" alt="">
-							<a href="/show-products/63915e32f25aadc8b954b6d9"  >
+							<a href="/show-products/63915e32f25aadc8b954b6d9">
 								<div class="deal-details">
 									<h6 class="deal-title">Sneaker for Couple</h6>
 								</div>
@@ -120,7 +120,7 @@
 						<div class="single-deal">
 							<div class="overlay"></div>
 							<img class="img-fluid w-100" src="img/category/c2.jpg" alt="">
-							<a href="/show-products/63915e5ff25aadc8b954b6dc"  >
+							<a href="/show-products/63915e5ff25aadc8b954b6dc">
 								<div class="deal-details">
 									<h6 class="deal-title">Sneaker for offRoad</h6>
 								</div>
@@ -131,7 +131,7 @@
 						<div class="single-deal">
 							<div class="overlay"></div>
 							<img class="img-fluid w-100" src="img/category/c3.jpg" alt="">
-							<a href="/show-products/63915e51f25aadc8b954b6db"  >
+							<a href="/show-products/63915e51f25aadc8b954b6db">
 								<div class="deal-details">
 									<h6 class="deal-title">Sneaker for Offices</h6>
 								</div>
@@ -142,7 +142,7 @@
 						<div class="single-deal">
 							<div class="overlay"></div>
 							<img class="img-fluid w-100" src="img/category/c4.jpg" alt="">
-							<a href="/show-products/63915e3ff25aadc8b954b6da"  >
+							<a href="/show-products/63915e3ff25aadc8b954b6da">
 								<div class="deal-details">
 									<h6 class="deal-title">Sneaker for Sports</h6>
 								</div>
@@ -155,7 +155,7 @@
 				<div class="single-deal">
 					<div class="overlay"></div>
 					<img class="img-fluid w-100" src="img/category/c5.jpg" alt="">
-					<a href="img/category/c5.jpg"  >
+					<a href="img/category/c5.jpg">
 						<div class="deal-details">
 							<h6 class="deal-title">Deal of the day</h6>
 						</div>
@@ -184,31 +184,37 @@
 				</div>
 			</div>
 			<div class="row">
+
 				<!-- single product -->
 				{{#each products}}
 				<div class="col-lg-3 col-md-6">
 					<div class="single-product">
 						<img class="img-fluid" src="images/{{Image.[0]}}" alt="">
 						<div class="product-details">
-							<h6>{{name}}</h6>
+							<h6><a href="/singleProducts/{{_id}}">{{name}}</a></h6>
 							<div class="price">
 								<h6>${{price}}</h6>
 							</div>
 							<div class="prd-bottom">
 
-								<a href="" class="social-info">
+								<a style="cursor: pointer;" onclick="addToCart('{{this._id}}')" class="social-info">
 									<span class="ti-bag"></span>
-									<p class="hover-text">add to bag</p>
+									<p class="hover-text">add to cart</p>
 								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-heart"></span>
+								{{#if this.wishlist}}
+								<a style="cursor: pointer;" class="social-info"
+									onclick="addToWishlist('{{this._id}}','{{this.name}}')">
+									<span class="lnr lnr-heart" id="wishIcon{{this._id}}" style="color: red;"></span>
 									<p class="hover-text">Wishlist</p>
 								</a>
-								<a href="/" class="social-info">
-									<span class="lnr lnr-sync"></span>
-									<p class="hover-text">compare</p>
+								{{else}}
+								<a style="cursor: pointer;" class="social-info"
+									onclick="addToWishlist('{{this._id}}','{{this.name}}')">
+									<span class="lnr lnr-heart" id="wishIcon{{this._id}}"></span>
+									<p class="hover-text">Wishlist</p>
 								</a>
-								<a href="" class="social-info">
+								{{/if}}
+								<a href="/view-product/{{this._id}}" class="social-info">
 									<span class="lnr lnr-move"></span>
 									<p class="hover-text">view more</p>
 								</a>
