@@ -3,8 +3,8 @@ const state={
     db:null
 }
 module.exports.connect=function(done){
-    const url='mongodb://localhost:27017'
-    // const url='mongodb+srv://robinrrk:lTfNsYAmiNwTBUnD@cluster0.ckgss6e.mongodb.net/?retryWrites=true&w=majority'
+    // const url='mongodb://localhost:27017'
+    const url='mongodb+srv://robinrrk:lTfNsYAmiNwTBUnD@cluster0.ckgss6e.mongodb.net/?retryWrites=true&w=majority'
     const dbname='aclone'
     MongoClient.connect(url,(err,data)=>{
          if(err) return done(err)
