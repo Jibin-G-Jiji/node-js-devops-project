@@ -1,0 +1,69 @@
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        {{#if banner}}
+        {{#each banner}}
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row single-slide align-items-center d-flex">
+                        <div class="col-lg-5 col-md-6">
+                            <div class="banner-content">
+                                <h1>{{Name}}<br>{{text}}</h1>
+                                <p>{{description}}</p>
+                                <div class="add-bag d-flex align-items-center">
+                                    <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                    <span class="add-text text-uppercase">Add to Bag</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="banner-img">
+                                <img class="img-fluid" src="img/banner/banner-img.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4" style="border-top: 1px solid #ebedf2;">
+                    
+                    <a href="/admin/edit-banner/{{_id}}" class="btn btn-warning btn-fw me-3">
+                        Edit
+                        <i class="mdi mdi-file-check btn-icon-append"></i>
+                    </a>
+
+                    <button class="btn btn-gradient-danger btn-icon-text" onclick="deleteed('{{_id}}')">
+                        Delete
+                        <i class="mdi mdi-alert btn-icon-prepend"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        {{else}}
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h1>You have no banner Yet!</h1>
+                    <a class="nav-link" href="/admin/add-banner"><u>+ Add Banner</u></a>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+<script>
+    function deleteed(id) {
+        console.log(id)
+        $.ajax({
+            url: `/admin/delete-banner/${id}`,
+            method: "get",
+            success: (res) => {
+                swal("Success!", res.success, "success").then( () => {
+                    location.reload(true)
+                })
+            },
+        });
+    }
+</script>

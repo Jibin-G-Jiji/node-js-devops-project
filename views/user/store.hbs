@@ -66,6 +66,9 @@
 								<img class="img-fluid" src="/images/{{Image.[0]}}" alt="Product image" style="width: 254px; height: 272px;">
 								<div class="product-details">
 									<h6><a href="/singleProducts/{{_id}}">{{name}}</a></h6>
+									{{#if categoryOffer}}
+										<p class="text-danger">Offer <span class="badge badge-success pt-1">- {{this.discountpercentage.[0]}}.0</span> %</p>
+									{{/if}}
 									<div class="price">
 										<h6>₹{{price}}</h6>
 										{{!-- <h6 class="l-through">₹{{extraPrice}}</h6> --}}

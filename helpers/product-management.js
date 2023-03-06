@@ -385,74 +385,74 @@ module.exports = {
         return report;
     },
 
-    // getAllBanner: () => {
-    //     return new Promise(async (resolve, reject) => {
-    //         let banner = await db
-    //             .get()
-    //             .collection(collection.BANNER_COLLECTION)
-    //             .find()
-    //             .toArray();
-    //         resolve(banner);
-    //     });
-    // },
+    getAllBanner: () => {
+        return new Promise(async (resolve, reject) => {
+            let banner = await db
+                .get()
+                .collection(collection.BANNER_COLLECTION)
+                .find()
+                .toArray();
+            resolve(banner);
+        });
+    },
 
-    // getOneBanner: (bannerId) => {
-    //     return new Promise((resolve, reject) => {
-    //         db.get()
-    //             .collection(collection.BANNER_COLLECTION)
-    //             .findOne({ _id: objectId(bannerId) })
-    //             .then((banner) => {
-    //                 resolve(banner);
-    //             });
-    //     });
-    // },
+    getOneBanner: (bannerId) => {
+        return new Promise((resolve, reject) => {
+            db.get()
+                .collection(collection.BANNER_COLLECTION)
+                .findOne({ _id: objectId(bannerId) })
+                .then((banner) => {
+                    resolve(banner);
+                });
+        });
+    },
 
-    // updateBanner: (bannerId, body) => {
-    //     return new Promise((resolve, reject) => {
-    //         db.get()
-    //             .collection(collection.BANNER_COLLECTION)
-    //             .updateOne(
-    //                 { _id: objectId(bannerId) },
-    //                 {
-    //                     $set: {
-    //                         Name: body.Name,
-    //                         text: body.bannerText,
-    //                         description: body.description,
-    //                         Images: body.Images,
-    //                     },
-    //                 }
-    //             );
-    //         resolve();
-    //     });
-    // },
+    updateBanner: (bannerId, body) => {
+        return new Promise((resolve, reject) => {
+            db.get()
+                .collection(collection.BANNER_COLLECTION)
+                .updateOne(
+                    { _id: objectId(bannerId) },
+                    {
+                        $set: {
+                            Name: body.Name,
+                            text: body.bannerText,
+                            description: body.description,
+                            Images: body.Images,
+                        },
+                    }
+                );
+            resolve();
+        });
+    },
 
-    // addBanner: (body) => {
-    //     return new Promise((resolve, reject) => {
-    //         let proObj = {
-    //             Name: body.Name,
-    //             text: body.bannerText,
-    //             description: body.description,
-    //             Images: body.Images,
-    //         };
-    //         db.get()
-    //             .collection(collection.BANNER_COLLECTION)
-    //             .insertOne(proObj)
-    //             .then(() => {
-    //                 resolve();
-    //             });
-    //     });
-    // },
+    addBanner: (body) => {
+        return new Promise((resolve, reject) => {
+            let proObj = {
+                Name: body.Name,
+                text: body.text,
+                description: body.description,
+                Images: body.Images,
+            };
+            db.get()
+                .collection(collection.BANNER_COLLECTION)
+                .insertOne(proObj)
+                .then(() => {
+                    resolve();
+                });
+        });
+    },
 
-    // deleteBanner: (bannerData) => {
-    //     return new Promise((resolve, reject) => {
-    //         db.get()
-    //             .collection(collection.BANNER_COLLECTION)
-    //             .deleteOne({ _id: objectId(bannerData) })
-    //             .then(() => {
-    //                 resolve();
-    //             });
-    //     });
-    // },
+    deleteBanner: (bannerData) => {
+        return new Promise((resolve, reject) => {
+            db.get()
+                .collection(collection.BANNER_COLLECTION)
+                .deleteOne({ _id: objectId(bannerData) })
+                .then(() => {
+                    resolve();
+                });
+        });
+    },
 
     //Add category
     addCategory: (userData) => {

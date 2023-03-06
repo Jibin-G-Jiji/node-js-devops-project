@@ -206,9 +206,9 @@ router.post(
   }
 );
 
+//Add product to DB
 router.post("/add-item", store.array("image", 4), verifyLogin, (req, res) => {
   const files = req.files;
-  console.log("I am hear");
   if (!files) {
     const err = new Error("please choose the images");
     console.log("File is not hear");
@@ -228,6 +228,53 @@ router.post("/add-item", store.array("image", 4), verifyLogin, (req, res) => {
   });
 });
 
+//BannerController
+router.get("/show-banner", verifyLogin, (req, res) => {
+  itemHelpers.getAllBanner().then((banner) => {
+    res.render("admin/banner", { admin: true, banner });
+  });
+});
+
+router.get("/add-banner", verifyLogin, (req, res) => {
+  res.render("admin/add-banner", { admin: true });
+});
+
+router.post("/add-banner", store.array("Images"), (req, res) => {
+  var filenames = req.files.map(function (file) {
+    return file.filename;
+  });
+  console.log(req.body);
+  req.body.Images = filenames;
+  itemHelpers.addBanner(req.body).then(() => {
+    res.redirect("/admin/show-banner");
+  });
+});
+
+router.get("/edit-banner/:id", verifyLogin, async (req, res) => {
+  let banner = await itemHelpers.getOneBanner(req.params.id);
+  res.render("admin/edit-banner", { admin: true, banner });
+});
+ 
+router.post("/edit-banner/:id", store.array('Images'), verifyLogin, async (req, res) => {
+  var filenames = req.files.map(function (file) {
+    return file.filename;
+  });
+  req.body.Images = filenames;
+  itemHelpers.updateBanner(req.params.id, req.body).then(() => {
+    res.redirect("/admin/show-banner");
+  });
+});
+
+router.get("/delete-banner/:id", verifyLogin, (req, res) => {
+  let banner = req.params.id;
+  console.log(banner);
+  itemHelpers.deleteBanner(banner).then(() => {
+    // res.redirect("/admin/show-banner");
+    res.json({success: "Deleted success fullly"});
+  });
+});
+
+
 
 //categories
 //getting catogories page for delete update
@@ -236,48 +283,6 @@ router.get("/categories", verifyLogin, (req, res) => {
     res.render("admin/categories", { admin: true, categories });
   });
 });
-
-// router.get("/show-banner", verifyLogin, (req, res) => {
-//   itemHelpers.getAllBanner().then((banner) => {
-//     res.render("admin/banner", { admin: true, banner });
-//   });
-// });
-
-// router.get("/add-banner", verifyLogin, (req, res) => {
-//   res.render("admin/add-banner", { admin: true });
-// });
-
-// router.post("/add-banner", store.array("Images"), (req, res) => {
-//   var filenames = req.files.map(function (file) {
-//     return file.filename;
-//   });
-//   req.body.Images = filenames;
-//   itemHelpers.addBanner(req.body).then(() => {
-//     res.redirect("/admin/show-banner");
-//   });
-// });
-
-// router.get("/edit-banner/:id", verifyLogin, async (req, res) => {
-//   let banner = await itemHelpers.getOneBanner(req.params.id);
-//   res.render("admin/edit-banner", { admin: true, banner });
-// });
-
-// router.post("/edit-banner/:id", store.array('Images'), verifyLogin, async (req, res) => {
-//   var filenames = req.files.map(function (file) {
-//     return file.filename;
-//   });
-//   req.body.Images = filenames;
-//   itemHelpers.updateBanner(req.params.id, req.body).then(() => {
-//     res.redirect("/admin/show-banner");
-//   });
-// });
-
-// router.get("/delete-banner/:id", verifyLogin, (req, res) => {
-//   let banner = req.params.id;
-//   itemHelpers.deleteBanner(banner).then(() => {
-//     res.redirect("/admin/show-banner");
-//   });
-// });
 
 router.get("/add-categories", verifyLogin, (req, res) => {
   res.render("admin/add-category", { admin: true });
@@ -311,6 +316,7 @@ router.get("/delete-category/:id", verifyLogin, (req, res) => {
   });
 });
 
+// Category offers
 router.get("/category-offer", verifyLogin, async (req, res) => {
   let category = await itemHelpers.getCategories();
   res.render("admin/category-offer", { admin: true, category });
