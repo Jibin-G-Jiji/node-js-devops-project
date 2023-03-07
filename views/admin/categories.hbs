@@ -22,8 +22,8 @@
                           <td> {{inc @index}} </td>
                           <td> {{category}} </td>
 
-                          <td> <a href="/admin/edit-catagory/{{_id}}" class="mdi mdi-tooltip-edit" ></a></td>
-                          <td> <a href="#" class="mdi mdi-delete" onclick=" deleteCategory('{{this.category}}','{{this._id}}')"></a> </td>
+                          <td> <a href="/admin/edit-catagory/{{_id}}" class="mdi mdi-tooltip-edit text-center" ></a></td>
+                          <td> <a href="#" class="mdi mdi-delete " style="text-align: center;" onclick=" deleteCategory('{{this.category}}','{{this._id}}')"></a> </td>
                         </tr>
                         {{/each}}
                       </tbody>

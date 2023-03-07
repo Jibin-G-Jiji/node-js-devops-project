@@ -209,6 +209,7 @@ router.post(
 //Add product to DB
 router.post("/add-item", store.array("image", 4), verifyLogin, (req, res) => {
   const files = req.files;
+  console.log("file hear");
   if (!files) {
     const err = new Error("please choose the images");
     console.log("File is not hear");

@@ -22,9 +22,9 @@
                             {{#each users}}
                             <tr>
                                 <td class="py-1">
-                                    <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
+                                    <img src="../../assets/images/faces-clipart/pic-{{inc @index}}.png" alt="image" />
                                 </td>
-                                <td>{{this.username}}</td>
+                                <td>{{this.username}} </td>
                                 <td> {{this.Email}}</td>
                                 <td> {{this.Phone}} </td>
                                 {{#if this.block}}
