@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const userHelpers = require("../helpers/user-helpers");
-var productHelpers = require("../helpers/product-management");
+var itemHelpers = require("../helpers/product-helper");
 const cartHelpers = require("../helpers/cart-helpers");
-const itemHelpers = require("../helpers/product-management");
+const productHelpers = require("../helpers/product-management");
 const store = require("../multer/multer");
 
 let userName = "admin";
@@ -55,17 +55,17 @@ router.get("/", (req, res) => {
 
 let currentYear= 2022
 router.get("/admin-dashboard", verifyLogin, async (req, res) => {
-  let userCount = await itemHelpers.getUserCount();
-  let productCount = await itemHelpers.getProductCount();
-  let ordersCount = await itemHelpers.getOrdersCount();
-  let totalRevenue = await itemHelpers.getTotalRevenue();
-  let cod = await itemHelpers.getPaymentMethodNums('COD')
-  let razorpay = await itemHelpers.getPaymentMethodNums('razorpay')
-  let paypal = await itemHelpers.getPaymentMethodNums('paypal')
-  let wallet = await itemHelpers.getPaymentMethodNums('wallet')
-  let chartData= await itemHelpers.getChartData(currentYear)
-  let listedYears= await itemHelpers.getYear()
-  // let monthlySalesReport= await itemHelpers.getMonthlySalesReport(currentYear)
+  let userCount = await productHelpers.getUserCount();
+  let productCount = await productHelpers.getProductCount();
+  let ordersCount = await productHelpers.getOrdersCount();
+  let totalRevenue = await productHelpers.getTotalRevenue();
+  let cod = await productHelpers.getPaymentMethodNums('COD')
+  let razorpay = await productHelpers.getPaymentMethodNums('razorpay')
+  let paypal = await productHelpers.getPaymentMethodNums('paypal')
+  let wallet = await productHelpers.getPaymentMethodNums('wallet')
+  let chartData= await productHelpers.getChartData(currentYear)
+  let listedYears= await productHelpers.getYear()
+  // let monthlySalesReport= await productHelpers.getMonthlySalesReport(currentYear)
   res.render("admin/admin-pannel", {
     admin: true,
     userCount,
@@ -96,7 +96,7 @@ router.post('/change-year',(req,res)=>{
 
 router.get('/sales-yearly',async(req,res)=>{
   try{
-    let yearlySalesReport= await itemHelpers.getYearlySalesReport()
+    let yearlySalesReport= await productHelpers.getYearlySalesReport()
   res.render('admin/sales-yearly',{admin: true,yearlySalesReport,currentYear})
   }catch(error){
     console.log(error); 
@@ -105,8 +105,8 @@ router.get('/sales-yearly',async(req,res)=>{
 
 router.get('/sales-monthly',async(req,res)=>{
   try{
-    let monthlySalesReport= await itemHelpers.getMonthlySalesReport(currentYear )
-  let listedYears= await itemHelpers.getYear()
+    let monthlySalesReport= await productHelpers.getMonthlySalesReport(currentYear )
+  let listedYears= await productHelpers.getYear()
   res.render('admin/sales-monthly',{admin: true,monthlySalesReport,listedYears,currentYear})
   }catch(error){
     console.log(error); 
@@ -115,8 +115,8 @@ router.get('/sales-monthly',async(req,res)=>{
 
 router.get('/sales-weekly',async(req,res)=>{
   try{
-    let weeklySalesReport= await itemHelpers.getWeeklySalesReport(currentYear)
-  let listedYears= await itemHelpers.getYear()
+    let weeklySalesReport= await productHelpers.getWeeklySalesReport(currentYear)
+  let listedYears= await productHelpers.getYear()
   res.render('admin/sales-weekly',{admin: true,weeklySalesReport,listedYears,currentYear})
   }catch(error){
     console.log(error); 
@@ -125,7 +125,7 @@ router.get('/sales-weekly',async(req,res)=>{
 
 //users
 router.get("/view-users", verifyLogin, (req, res) => {
-  productHelpers.getAlluser().then((users) => {
+  itemHelpers.getAlluser().then((users) => {
     res.render("admin/view-users", { admin: true, users });
   });
 });
@@ -154,13 +154,13 @@ router.get("/Un-Block-user/:id", verifyLogin, (req, res) => {
 //products
 // view-products
 router.get("/view-products", verifyLogin, (req, res) => {
-  itemHelpers.getAllProducts().then((products) => {
+  productHelpers.getAllProducts().then((products) => {
     res.render("admin/view-products", { admin: true, products });
   });
 });
 
 router.get("/add-products", verifyLogin, (req, res) => {
-  itemHelpers.getCategories().then((categories) => {
+  productHelpers.getCategories().then((categories) => {
     res.render("admin/add-products", { admin: true, categories });
   });
 });
@@ -177,8 +177,8 @@ router.get("/product-delete/:id", verifyLogin, (req, res) => {
 //edit-product
 router.get("/edit-product/:id", verifyLogin, async (req, res) => {
   try {
-    let editProductFormData = await itemHelpers.getProductData(req.params.id);
-    let categories = await itemHelpers.getCategories();
+    let editProductFormData = await productHelpers.getProductData(req.params.id);
+    let categories = await productHelpers.getCategories();
     res.render("admin/edit-product", {
       editProductFormData,
       categories,
@@ -200,7 +200,7 @@ router.post(
       return file.filename;
     });
     req.body.Image = filenames;
-    itemHelpers.updateProduct(req.params.id, req.body).then((response) => {
+    productHelpers.updateProduct(req.params.id, req.body).then((response) => {
       res.redirect("/admin/view-products");
     });
   }
@@ -222,7 +222,7 @@ router.post("/add-item", store.array("image", 4), verifyLogin, (req, res) => {
   });
 
   req.body.Image = filenames;
-  itemHelpers.addItem(req.body).then(() => {
+  productHelpers.addItem(req.body).then(() => {
     // res.redirect("/add-products");
     res.send('This is success')
   });
@@ -230,7 +230,7 @@ router.post("/add-item", store.array("image", 4), verifyLogin, (req, res) => {
 
 //BannerController
 router.get("/show-banner", verifyLogin, (req, res) => {
-  itemHelpers.getAllBanner().then((banner) => {
+  productHelpers.getAllBanner().then((banner) => {
     res.render("admin/banner", { admin: true, banner });
   });
 });
@@ -245,13 +245,13 @@ router.post("/add-banner", store.array("Images"), (req, res) => {
   });
   console.log(req.body);
   req.body.Images = filenames;
-  itemHelpers.addBanner(req.body).then(() => {
+  productHelpers.addBanner(req.body).then(() => {
     res.redirect("/admin/show-banner");
   });
 });
 
 router.get("/edit-banner/:id", verifyLogin, async (req, res) => {
-  let banner = await itemHelpers.getOneBanner(req.params.id);
+  let banner = await productHelpers.getOneBanner(req.params.id);
   res.render("admin/edit-banner", { admin: true, banner });
 });
  
@@ -260,7 +260,7 @@ router.post("/edit-banner/:id", store.array('Images'), verifyLogin, async (req, 
     return file.filename;
   });
   req.body.Images = filenames;
-  itemHelpers.updateBanner(req.params.id, req.body).then(() => {
+  productHelpers.updateBanner(req.params.id, req.body).then(() => {
     res.redirect("/admin/show-banner");
   });
 });
@@ -268,7 +268,7 @@ router.post("/edit-banner/:id", store.array('Images'), verifyLogin, async (req, 
 router.get("/delete-banner/:id", verifyLogin, (req, res) => {
   let banner = req.params.id;
   console.log(banner);
-  itemHelpers.deleteBanner(banner).then(() => {
+  productHelpers.deleteBanner(banner).then(() => {
     // res.redirect("/admin/show-banner");
     res.json({success: "Deleted success fullly"});
   });
@@ -279,7 +279,7 @@ router.get("/delete-banner/:id", verifyLogin, (req, res) => {
 //categories
 //getting catogories page for delete update
 router.get("/categories", verifyLogin, (req, res) => {
-  itemHelpers.getCategories().then((categories) => {
+  productHelpers.getCategories().then((categories) => {
     res.render("admin/categories", { admin: true, categories });
   });
 });
@@ -290,12 +290,12 @@ router.get("/add-categories", verifyLogin, (req, res) => {
 
 router.post("/add-category", verifyLogin, (req, res) => {
   console.log(req.body);
-  itemHelpers.addCategory(req.body);
+  productHelpers.addCategory(req.body);
   res.send("Item add successfuly");
 });
 
 router.get("/edit-categories/:id", verifyLogin, (req, res) => {
-  itemHelpers
+  productHelpers
     .getSingleCategory(req.params.id)
     .then((category) => {
       res.render("admin/edit-category", { admin: true, category });
@@ -306,19 +306,19 @@ router.get("/edit-categories/:id", verifyLogin, (req, res) => {
 });
 
 router.post("/edit-category/:id", (req, res) => {
-  itemHelpers.updateCategory(req.params.id, req.body);
+  productHelpers.updateCategory(req.params.id, req.body);
   res.redirect("/admin/categories");
 });
 
 router.get("/delete-category/:id", verifyLogin, (req, res) => {
-  itemHelpers.deleteCategory(req.params.id).then((response) => {
+  productHelpers.deleteCategory(req.params.id).then((response) => {
     res.redirect("/admin/categories");
   });
 });
 
 // Category offers
 router.get("/category-offer", verifyLogin, async (req, res) => {
-  let category = await itemHelpers.getCategories();
+  let category = await productHelpers.getCategories();
   res.render("admin/category-offer", { admin: true, category });
 });
 
@@ -328,40 +328,40 @@ router.get("/add-offer-category/:id", verifyLogin, (req, res) => {
 });
 
 router.post("/add-offer-category", verifyLogin, (req, res) => {
-  itemHelpers.addOfferCategory(req.body, req.session.catId).then(() => {
+  productHelpers.addOfferCategory(req.body, req.session.catId).then(() => {
     res.redirect("/admin/category-offer");
   });
 });
 
 router.post("/offer-activate", (req, res) => {
   newoffer = req.body.offer;
-  itemHelpers
+  productHelpers
     .changeOfferStatus(req.body.categoryId, newoffer)
     .then((response) => {
-      itemHelpers.activateCategoryOffer(req.body.categoryId);
+      productHelpers.activateCategoryOffer(req.body.categoryId);
       res.json(response);
     });
 });
 
 router.post("/offer-deactivate", (req, res) => {
   newoffer = req.body.offer;
-  itemHelpers
+  productHelpers
     .changeOfferStatus(req.body.categoryId, newoffer)
     .then((response) => {
-      itemHelpers.deactivateCategoryOffer(req.body.categoryId);
+      productHelpers.deactivateCategoryOffer(req.body.categoryId);
       res.json(response);
     });
 });
 
 //orders
 router.get("/admin-orders", verifyLogin, (req, res) => {
-  itemHelpers.getOrders().then((Items) => {
+  productHelpers.getOrders().then((Items) => {
     res.render("admin/admin-orders", { admin: true, Items });
   });
 });
 
 router.post("/change-order-status/:id", verifyLogin, (req, res) => {
-  itemHelpers
+  productHelpers
     .changeOrderStatus(req.params.id, req.body.status)
     .then((response) => {
       res.json(response);
@@ -377,7 +377,7 @@ router.get("/view-order/:id", verifyLogin, async (req, res) => {
 
 //coupons section 
 router.get("/show-coupon", verifyLogin, (req, res) => {
-  itemHelpers.getAllCoupon().then((coupon) => {
+  productHelpers.getAllCoupon().then((coupon) => {
     res.render("admin/view-coupon", { admin: true, coupon });
   });
 });
@@ -387,14 +387,14 @@ router.get("/add-coupon", verifyLogin, (req, res) => {
 });
 
 router.post("/add-coupon", (req, res) => {
-  itemHelpers.addCoupon(req.body).then(() => {
+  productHelpers.addCoupon(req.body).then(() => {
     res.redirect("/admin/show-coupon");
   });
 });
 
 router.get("/delete-coupon/:id", verifyLogin, (req, res) => {
   let couponId = req.params.id;
-  itemHelpers.deleteCoupon(couponId).then(() => {
+  productHelpers.deleteCoupon(couponId).then(() => {
     // res.redirect("/admin/view-coupon");
     res.json({response: true})
   });

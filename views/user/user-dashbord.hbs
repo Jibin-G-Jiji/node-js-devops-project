@@ -4,13 +4,12 @@
 			<div class="col-lg-12">
 				<div class="active-banner-slider owl-carousel">
 					<!-- single-slide -->
+					{{#each banner}}
 					<div class="row single-slide align-items-center d-flex">
 						<div class="col-lg-5 col-md-6">
 							<div class="banner-content">
-								<h1>New San<br>Collection!</h1>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-									incididunt ut labore et
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+								<h1>{{Name}}<br>{{text}}</h1>
+								<p>{{description}}</p>
 								<div class="add-bag d-flex align-items-center">
 									<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
@@ -19,10 +18,11 @@
 						</div>
 						<div class="col-lg-7">
 							<div class="banner-img">
-								<img class="img-fluid" src="img/banner/banner-img.png" alt="">
+								<img class="img-fluid" src="/images/{{Images.[0]}}" alt="">
 							</div>
 						</div>
 					</div>
+					{{/each}}
 					<!-- single-slide -->
 					<div class="row single-slide">
 						<div class="col-lg-5">

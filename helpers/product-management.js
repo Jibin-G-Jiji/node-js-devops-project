@@ -10,7 +10,7 @@ Handlebars.registerHelper("inc", function (value, options) {
 });
 
 module.exports = {
-    
+
     getAllProducts: (proId) => {
         return new Promise(async (resolve, reject) => {
             let products = await db
@@ -497,11 +497,11 @@ module.exports = {
                     resolve(category);
                 });
         })
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
     },
 
     updateCategory: (proId, proDetails) => {
@@ -520,11 +520,11 @@ module.exports = {
                     resolve(response);
                 });
         })
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
     },
 
     deleteCategory: (proId) => {
@@ -536,11 +536,11 @@ module.exports = {
                     resolve(response);
                 });
         })
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
     },
 
     addOfferCategory: (body, catId) => {
@@ -558,11 +558,11 @@ module.exports = {
                 );
             resolve();
         })
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
     },
 
     activateCategoryOffer: (catId) => {
@@ -626,11 +626,11 @@ module.exports = {
             });
             resolve();
         })
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
     },
 
     deactivateCategoryOffer: (catId) => {
@@ -695,11 +695,11 @@ module.exports = {
                     );
             });
         })
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
     },
 
     changeOfferStatus: (catId, newOffer) => {
@@ -721,7 +721,7 @@ module.exports = {
 
     //ADD-PRODUCT
     addItem: (body) => {
-        
+
         return new Promise(async (resolve, reject) => {
             let Category = await db
                 .get()
