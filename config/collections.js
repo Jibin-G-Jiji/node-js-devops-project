@@ -2,7 +2,7 @@ module.exports = {
   USER_COLLECTION: "user",
   PRODUCT_COLLECTIONS: "products",
   PRODUCT_CATEGORY: "product-category",
-  CART_COLLECTION: 'user-cart',
+  CART_COLLECTION: 'user-cart', 
   ORDER_COLLECTION: 'user-order',
   ADDRESS_COLLECTION: 'user-address-checkout',
   ADDRESS_USER: 'user-address',
