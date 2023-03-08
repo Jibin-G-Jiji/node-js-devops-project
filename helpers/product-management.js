@@ -1,6 +1,6 @@
 "use strict"
-const db = require("../config/connection")
 const collection = require("../config/collections")
+const db = require("../config/connection")
 var objectId = require("mongodb").ObjectId;
 var Handlebars = require("handlebars");
 const { response } = require("express");
@@ -8,9 +8,9 @@ const { response } = require("express");
 Handlebars.registerHelper("inc", function (value, options) {
     return parseInt(value) + 1;
 });
-
+ 
 module.exports = {
-
+ 
     getAllProducts: (proId) => {
         return new Promise(async (resolve, reject) => {
             let products = await db
@@ -387,8 +387,7 @@ module.exports = {
 
     getAllBanner: () => {
         return new Promise(async (resolve, reject) => {
-            let banner = await db
-                .get()
+            let banner = await db.get()
                 .collection(collection.BANNER_COLLECTION)
                 .find()
                 .toArray();

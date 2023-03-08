@@ -2,7 +2,7 @@ const multer = require("multer");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, __dirname + "./public/images");
+    cb(null, "./public/images");
   },
   filename: function (req, file, cb) {
     var ext = file.originalname.substr(file.originalname.lastIndexOf("."));
@@ -12,3 +12,5 @@ var storage = multer.diskStorage({
 });
 
 module.exports = store = multer({ storage });
+
+

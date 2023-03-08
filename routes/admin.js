@@ -168,6 +168,7 @@ router.get("/add-products", verifyLogin, (req, res) => {
 //product delete
 router.get("/product-delete/:id", verifyLogin, (req, res) => {
   let proId = req.params.id;
+  console.log(proId);
   itemHelpers.deleteProduct(proId).then((response) => {
     res.redirect("/admin/view-products");
   });

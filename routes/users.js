@@ -222,9 +222,9 @@ router.get("/", async function (req, res, next) {
   let userLog = req.session?.user;
   let cartCount = req.session.loggedIn
     ? await cartHelpers.getCartCount(userLog._id)
-    : null;
-  let banner = await itemHelpers.getAllBanner();
-  // let categories = await productHelpers.getCategories();
+    : null; 
+  let banneer = await itemHelpers.getAllBanner();
+  let categories = await productHelpers.getCategories();
   let products = await productHelpers.getHomeProducts();
 
   if (userLog) {
@@ -240,10 +240,13 @@ router.get("/", async function (req, res, next) {
       }
     }
   }
- 
+
+  console.log(categories);
+
   res.render("user/user-dashbord", {
     userHead: true,
-    banner,
+    categories,
+    banneer,
     userLog,
     products,
     cartCount,
