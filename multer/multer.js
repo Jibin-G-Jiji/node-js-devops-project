@@ -5,9 +5,9 @@ var storage = multer.diskStorage({
     cb(null, __dirname + "./public/images");
   },
   filename: function (req, file, cb) {
-    console.log("Image add to image file");
     var ext = file.originalname.substr(file.originalname.lastIndexOf("."));
     cb(null, Date.now() + "--" + file.originalname);
+    console.log("Image add to image file");
   },
 });
 
