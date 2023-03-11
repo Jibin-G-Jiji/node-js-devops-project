@@ -2,7 +2,7 @@
 
 This is a simple e-commerce website built using nodejS, Express, and MongoDb.
 
-![alt text](karma.gif)
+![alt text](http://karmacommerce.cf/img/karma.gif)
 
 
 ## Features
