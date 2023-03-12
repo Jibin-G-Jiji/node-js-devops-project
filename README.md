@@ -2,17 +2,24 @@
 
 This is a simple e-commerce website built using nodejS, Express, and MongoDb.
 
-![alt text](http://karmacommerce.cf/img/karma.gif)
-<img align="center" src="http://karmacommerce.cf/img/karma.gif"/>
+![siteImage](/karmaeCommerce/karma.gif)
+<img align="center" alt="CoderGIF" height=350 width=550 src="https://karmacommerce.cf/img/karma.gif"/>
 
 
 ## Features
 
+#### Users
 * Product catalog with product details and images
 * Shopping cart to keep track of selected products
 * Checkout page with shipping and billing information form
 * Payment integration with Razorpay and PayPal
 * Users can also order the products by cash-on-delivary option.
+
+#### Admin
+* Admin can add the product delete the product and edit the product.
+* Admin can also block and unblock the user
+* Admin add the offer and coupon 
+* Admin also add front banner
 
 ## Installation and Open site
 
@@ -63,19 +70,19 @@ This project uses the following dependencies:
 
 #### Back-end 
 
-* bcrypt 5.1.0
-* cookie-parser1.4.4
-* crypto 1.0.1
-* express ~4.16.1
-* express-handlebars ^6.0.6
-* express-session ^1.17.3
-* handlebars ^4.7.7
-* hbs ~4.0.4
-* mongodb ^4.12.1
-* morgan ~1.9.1
-* multer ^1.4.5-lts.1
-* paypal-rest-sdk ^1.8.1
-* razorpay ^2.8.6
+* bcrypt 
+* cookie-parser
+* crypto 
+* express 
+* express-handlebars 
+* express-session 
+* handlebars 
+* hbs 
+* mongodb
+* morgan 
+* multer 
+* paypal 
+* razorpay 
 * twilio
 
 #### Database
