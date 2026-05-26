@@ -1,4 +1,6 @@
 // Some Comments
+require('dotenv').config()
+console.log(process.env.KEY_ID)
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

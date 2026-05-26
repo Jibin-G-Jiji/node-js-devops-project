@@ -6,12 +6,12 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
     "currency-converter-lt": "^2.0.0-beta.0",
     "debug": "~2.6.9",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.6.1",
     "express": "~4.16.1",
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
