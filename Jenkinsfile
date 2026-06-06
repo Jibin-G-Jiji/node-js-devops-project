@@ -2,14 +2,10 @@ pipeline {
     agent any
 
     environment {
-        // ── Docker Hub ──
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-        DOCKER_IMAGE           = 'your-dockerhub-username/node-js-devops-project'  // ← CHANGE THIS
+        DOCKER_IMAGE           = 'jibin321/node-js-devops-project'
         IMAGE_TAG              = "${BUILD_NUMBER}"
-
-        // ── SonarQube ──
-        SONAR_SCANNER_HOME = tool 'sonar-scanner'  // Name configured in Global Tool Configuration
-
+        SONAR_SCANNER_HOME     = tool 'sonar-scanner'
     }
 
     options {
@@ -21,9 +17,6 @@ pipeline {
 
     stages {
 
-        // ──────────────────────────────────────────
-        // 1. Git Checkout
-        // ──────────────────────────────────────────
         stage('Git Checkout') {
             steps {
                 echo '📥 Checking out source code...'
@@ -31,9 +24,6 @@ pipeline {
             }
         }
 
-        // ──────────────────────────────────────────
-        // 2. Install Dependencies
-        // ──────────────────────────────────────────
         stage('Install Dependencies') {
             steps {
                 echo '📦 Installing Node.js dependencies...'
@@ -41,13 +31,10 @@ pipeline {
             }
         }
 
-        // ──────────────────────────────────────────
-        // 3. SonarQube Analysis
-        // ──────────────────────────────────────────
         stage('SonarQube Analysis') {
             steps {
                 echo '🔍 Running SonarQube analysis...'
-                withSonarQubeEnv('sonarqube-server') {  // Name configured in Manage Jenkins → System
+                withSonarQubeEnv('sonarqube-server') {
                     sh """
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                           -Dsonar.projectKey=node-js-devops-project \
@@ -60,35 +47,26 @@ pipeline {
             }
         }
 
-        // ──────────────────────────────────────────
-        // 4. SonarQube Quality Gate
-        // ──────────────────────────────────────────
         stage('Quality Gate') {
             steps {
-                echo '🚦 Waiting for SonarQube Quality Gate result...'
+                echo '🚦 Waiting for Quality Gate...'
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
         }
 
-        // ──────────────────────────────────────────
-        // 5. Docker Build
-        // ──────────────────────────────────────────
         stage('Docker Build') {
             steps {
-                echo "🐳 Building Docker image: ${DOCKER_IMAGE}:${IMAGE_TAG}"
+                echo "🐳 Building ${DOCKER_IMAGE}:${IMAGE_TAG}"
                 sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} -f DockerFile ."
                 sh "docker tag ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest"
             }
         }
 
-        // ──────────────────────────────────────────
-        // 6. Docker Push to Docker Hub
-        // ──────────────────────────────────────────
         stage('Docker Push') {
             steps {
-                echo '🚀 Pushing Docker image to Docker Hub...'
+                echo '🚀 Pushing to Docker Hub...'
                 sh "echo ${DOCKER_HUB_CREDENTIALS_PSW} | docker login -u ${DOCKER_HUB_CREDENTIALS_USR} --password-stdin"
                 sh "docker push ${DOCKER_IMAGE}:${IMAGE_TAG}"
                 sh "docker push ${DOCKER_IMAGE}:latest"
@@ -99,16 +77,13 @@ pipeline {
 
     post {
         success {
-            echo '✅ Pipeline completed successfully!'
-            echo "Image pushed: ${DOCKER_IMAGE}:${IMAGE_TAG}"
-            // Clean up Docker images from the Jenkins agent
+            echo "✅ Success — pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
             sh "docker rmi ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest || true"
         }
         failure {
-            echo '❌ Pipeline failed! Check the logs above for details.'
+            echo '❌ Pipeline failed — check logs above.'
         }
         always {
-            // Clean up workspace
             cleanWs()
         }
     }
