@@ -6,18 +6,18 @@ var objectId = require("mongodb").ObjectId;
 require("dotenv").config();
 
 const RazorPay = require("razorpay");
-const paypal = require("paypal-rest-sdk");
 
-var instance = new RazorPay({
-    key_id: process.env.KEY_ID,
-    key_secret: process.env.KEY_SECRET, 
-});
-  
-paypal.configure({
-  mode: "sandbox",
-  client_id: process.env.CLIENT_ID,
-  client_secret: process.env.CLIENT_SECRET,
-});
+let instance = null;
+
+if (process.env.KEY_ID && process.env.KEY_SECRET) {
+    instance = new RazorPay({
+        key_id: process.env.KEY_ID,
+        key_secret: process.env.KEY_SECRET,
+    });
+    console.log("Razorpay initialized");
+} else {
+    console.log("Razorpay credentials not found. Skipping Razorpay initialization.");
+}
 
 module.exports = {
     doSignUp: (userData) => {
@@ -735,27 +735,28 @@ module.exports = {
     },
 
     generateRazorPay: (orderId, total) => {
-        return new Promise((resolve, reject) => {
-            instance.orders.create(
-                {
-                    amount: total * 100,
-                    currency: "INR",
-                    receipt: orderId,
-                    notes: {
-                        key1: "value3",
-                        key2: "value2",
-                    },
-                },
-                (err, order) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        resolve(order);
-                    }
+    return new Promise((resolve, reject) => {
+
+        if (!instance) {
+            return reject(new Error("Razorpay is disabled"));
+        }
+
+        instance.orders.create(
+            {
+                amount: total * 100,
+                currency: "INR",
+                receipt: orderId,
+            },
+            (err, order) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(order);
                 }
-            );
-        });
-    },
+            }
+        );
+    });
+},
 
     generatePayPal: (orderId, totalPrice) => {
         let price = totalPrice.toString();
