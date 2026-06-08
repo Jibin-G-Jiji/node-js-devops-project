@@ -76,14 +76,15 @@ pipeline {
     }
 
     post {
-        success {
-            echo "✅ Success — pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
-            sh "docker rmi ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest || true"
-        }
-        failure {
-            echo '❌ Pipeline failed — check logs above.'
-        }
-        always {
+    success {
+        echo "✅ Success — pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
+        sh "docker rmi ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest || true"
+    }
+    failure {
+        echo '❌ Pipeline failed — check logs above.'
+    }
+    always {
+        node {
             cleanWs()
         }
     }
