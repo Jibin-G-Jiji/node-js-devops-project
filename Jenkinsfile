@@ -64,7 +64,7 @@ pipeline {
             }
         }
     }
-    post {
+   post {
         success {
             echo "✅ Success — pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
             sh "docker rmi ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest || true"
@@ -73,9 +73,7 @@ pipeline {
             echo '❌ Pipeline failed — check logs above.'
         }
         always {
-            node {
-                cleanWs()
-            }
+            echo '🧹 Pipeline finished.'
         }
     }
 }
