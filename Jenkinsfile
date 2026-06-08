@@ -1,36 +1,30 @@
 pipeline {
     agent any
-
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('docker-cred')
         DOCKER_IMAGE           = 'jibin321/node-js-devops-project'
         IMAGE_TAG              = "${BUILD_NUMBER}"
         SONAR_SCANNER_HOME     = tool 'sonar-scanner'
     }
-
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         timestamps()
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
     }
-
     stages {
-
         stage('Git Checkout') {
             steps {
                 echo '📥 Checking out source code...'
                 checkout scm
             }
         }
-
         stage('Install Dependencies') {
             steps {
                 echo '📦 Installing Node.js dependencies...'
                 sh 'npm install'
             }
         }
-
         stage('SonarQube Analysis') {
             steps {
                 echo '🔍 Running SonarQube analysis...'
@@ -46,7 +40,6 @@ pipeline {
                 }
             }
         }
-
         stage('Quality Gate') {
             steps {
                 echo '🚦 Waiting for Quality Gate...'
@@ -55,7 +48,6 @@ pipeline {
                 }
             }
         }
-
         stage('Docker Build') {
             steps {
                 echo "🐳 Building ${DOCKER_IMAGE}:${IMAGE_TAG}"
@@ -63,7 +55,6 @@ pipeline {
                 sh "docker tag ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest"
             }
         }
-
         stage('Docker Push') {
             steps {
                 echo '🚀 Pushing to Docker Hub...'
@@ -72,20 +63,19 @@ pipeline {
                 sh "docker push ${DOCKER_IMAGE}:latest"
             }
         }
-
     }
-
     post {
-    success {
-        echo "✅ Success — pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
-        sh "docker rmi ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest || true"
-    }
-    failure {
-        echo '❌ Pipeline failed — check logs above.'
-    }
-    always {
-        node {
-            cleanWs()
+        success {
+            echo "✅ Success — pushed ${DOCKER_IMAGE}:${IMAGE_TAG}"
+            sh "docker rmi ${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_IMAGE}:latest || true"
+        }
+        failure {
+            echo '❌ Pipeline failed — check logs above.'
+        }
+        always {
+            node {
+                cleanWs()
+            }
         }
     }
 }
