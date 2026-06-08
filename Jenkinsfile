@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_HUB_CREDENTIALS = credentials('docker-cred')
         DOCKER_IMAGE           = 'jibin321/node-js-devops-project'
         IMAGE_TAG              = "${BUILD_NUMBER}"
         SONAR_SCANNER_HOME     = tool 'sonar-scanner'
